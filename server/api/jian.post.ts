@@ -27,7 +27,8 @@ export default defineEventHandler(async (event: H3Event) => {
       JSON.stringify(experiences),
     ].join("\n");
 
-    const apiKey = process.env.OPENAI_API_KEY || "";
+    const config = useRuntimeConfig();
+    const apiKey = config.openaiApiKey;
     if (!apiKey) {
       return { error: "Missing OPENAI_API_KEY on server" };
     }
