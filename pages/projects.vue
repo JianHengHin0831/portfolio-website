@@ -5,9 +5,6 @@
         <h1 class="text-xl text-emerald-300">
           Simulation Archives // Projects
         </h1>
-        <NuxtLink to="/" class="text-emerald-300 hover:underline"
-          >/home</NuxtLink
-        >
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -64,6 +61,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { projects as projectsData, type Project } from "../data/profile";
+
+useHead({
+  title: "Projects | Hin Jian Heng",
+});
 
 const projects = projectsData;
 const selectedProject = ref<Project | null>(null);

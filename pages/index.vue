@@ -122,6 +122,10 @@ import {
 } from "../data/commandOutput";
 import { typeLine, delay } from "../uitls/helper";
 
+useHead({
+  title: "Terminal | Hin Jian Heng",
+});
+
 const bootLines = [
   "Initializing Neural Core... [OK]",
   "Parsing Identity Matrix: HIN JIAN HENG...",
@@ -139,7 +143,6 @@ const placeholder =
   "$ help | about | projects | skills | timeline | dashboard | clear";
 const router = useRouter();
 const isGuiMode = ref(false);
-const isFirstVisit = ref(false);
 const isFocused = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -179,7 +182,6 @@ async function playBootSequence() {
 onMounted(() => {
   const saved = sessionStorage.getItem("commandHistory");
   if (saved) {
-    console.log(saved);
     commandHistory.value = JSON.parse(saved);
   }
 
@@ -195,7 +197,6 @@ onMounted(() => {
 watch(
   commandHistory,
   (newVal) => {
-    console.log(newVal);
     sessionStorage.setItem("commandHistory", JSON.stringify(newVal));
   },
   { deep: true }

@@ -36,7 +36,7 @@ export default defineNuxtPlugin(() => {
   let hoverElement: HTMLElement | null = null;
   document.addEventListener("mouseover", (e) => {
     const target = e.target as HTMLElement;
-    console.log(target);
+
     if (isInteractive(target) && hoverElement != interactiveElement(target)) {
       hoverElement = interactiveElement(target);
       play(hoverAudio, "hover");

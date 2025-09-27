@@ -1,5 +1,21 @@
 <template>
   <nav class="fixed top-6 right-6 z-50">
+    <NuxtLink
+      v-if="showMode == 'terminal' && route.path !== '/'"
+      to="/"
+      class="group relative inline-flex items-center justify-center text-emerald-300 transition-all duration-300"
+      data-sound
+    >
+      <span
+        class="absolute inset-0 rounded-full bg-emerald-400/10 blur-lg opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 glow-pulse"
+      >
+      </span>
+      <Icon
+        name="heroicons:x-mark"
+        class="relative w-16 h-16 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-90 group-active:scale-95"
+      />
+    </NuxtLink>
+
     <Transition name="unfold">
       <ul class="flex flex-col space-y-2" v-show="showMode == 'GUI'">
         <li
@@ -33,7 +49,7 @@
             />
 
             <span
-              class="absolute right-full mr-4 z-10 px-3 py-1 bg-gray-900/80 border border-cyan-400/50 rounded text-cyan-400 text-xs font-semibold uppercase tracking-wider whitespace-nowrap opacity-0 translate-x-[-10px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
+              class="pointer-events-none absolute right-full mr-4 z-10 px-3 py-1 bg-gray-900/80 border border-cyan-400/50 rounded text-cyan-400 text-xs font-semibold uppercase tracking-wider whitespace-nowrap opacity-0 translate-x-[-10px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
             >
               {{ item.name }}
             </span>
@@ -56,6 +72,10 @@ const navItems = [
 ];
 
 import { ref, onMounted } from "vue";
+
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const showMode = ref("terminal");
 
@@ -113,5 +133,18 @@ onMounted(() => {
 .unfold-leave-from .unfold-item {
   opacity: 1;
   transform: translateX(0) scale(1);
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+  }
+}
+.glow-pulse {
+  animation: pulse-glow 2s infinite;
 }
 </style>

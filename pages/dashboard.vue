@@ -3,12 +3,6 @@
     <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-xl text-emerald-300">JIAN // Main Dashboard</h1>
-        <NuxtLink
-          to="/"
-          class="text-emerald-300 hover:underline"
-          v-if="showMode != 'GUI'"
-          >/home</NuxtLink
-        >
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -159,12 +153,11 @@ let animTo: number[] | null = null;
 let animStart = 0;
 const animDuration = 650;
 const visibleLines = ref<string[]>([]);
-const showMode = ref("GUI");
-onMounted(() => {
-  if (sessionStorage.getItem("visited_home")) {
-    showMode.value = sessionStorage.getItem("visited_home") || "GUI";
-  }
+
+useHead({
+  title: "Home | Hin Jian Heng",
 });
+
 const summaryLines: string[] = [
   "Strong in Machine Learning, Cloud, System Design, Frontend, NLP, and Computer Vision.",
   "Can build and run AI systems that work fast and explain results clearly.",

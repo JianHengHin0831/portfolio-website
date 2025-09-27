@@ -92,14 +92,23 @@
     </Transition>
 
     <!-- Floating Action Button -->
-    <button
-      v-if="!open"
-      data-sound
-      class="w-14 h-14 rounded-full bg-emerald-500/20 border-2 border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-lg shadow-emerald-900/60 hover:bg-emerald-500/30 hover:scale-105 animate-pulse-subtle transition-all duration-300"
-      @click="open = true"
+    <Transition
+      enter-active-class="transition-all duration-300 ease-out"
+      enter-from-class="opacity-0 scale-75"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="transition-all duration-300 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-75"
     >
-      <Icon name="heroicons:chat-bubble-left-right" class="w-7 h-7" />
-    </button>
+      <button
+        v-if="!open"
+        data-sound
+        class="w-14 h-14 rounded-full bg-emerald-500/20 border-2 border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-lg shadow-emerald-900/60 hover:bg-emerald-500/30 hover:scale-105 animate-pulse-subtle transition-all duration-300"
+        @click="open = true"
+      >
+        <Icon name="heroicons:chat-bubble-left-right" class="w-7 h-7" />
+      </button>
+    </Transition>
   </div>
 </template>
 

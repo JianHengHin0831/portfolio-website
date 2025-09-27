@@ -6,34 +6,35 @@
       class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(16,185,129,0.1),rgba(255,255,255,0))]"
     ></div>
 
-    <div class="max-w-7xl mx-auto px-6 pt-10 relative z-10">
-      <div class="flex items-center justify-between">
-        <h1 class="text-xl text-emerald-300">
-          Cognitive Architecture // Mainboard
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10 relative z-10">
+      <div
+        class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-0"
+      >
+        <h1 class="text-lg sm:text-xl text-emerald-300">
+          Cognitive Architecture // Skills
         </h1>
-        <NuxtLink to="/" class="text-emerald-300 hover:underline"
-          >/home</NuxtLink
-        >
       </div>
       <h1
-        class="text-md text-cyan-400 font-mono tracking-wide pb-10 drop-shadow-lg animate-fade-in"
+        class="text-sm sm:text-md text-cyan-400 font-mono tracking-wide pb-6 sm:pb-10 drop-shadow-lg animate-fade-in"
       >
         Explore skill details by selecting any block
       </h1>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-12"
+      >
         <!-- Column 1: Processor Cores -->
-        <div class="space-y-6">
+        <div class="space-y-4 sm:space-y-6">
           <h2 class="text-slate-400 text-sm border-b border-white/10 pb-2">
             Processor Cores
           </h2>
-          <div class="space-y-4">
+          <div class="space-y-3 sm:space-y-4">
             <button
               v-for="(core, index) in cores"
               :key="core.name"
               data-sound
               @click="handleCoreClick(core.name)"
-              class="transition-all duration-500 ease-out group w-full text-left transition-all duration-500 ease-in-out"
+              class="transition-all duration-500 ease-out group w-full text-left"
               :class="{
                 [coreClass(core.name)]: true,
                 'opacity-100 translate-y-0': isMounted,
@@ -42,14 +43,16 @@
               :style="{ transitionDelay: `${index * 100}ms` }"
             >
               <div
-                class="border border-white/20 rounded-lg p-4 bg-slate-900/50 backdrop-blur-sm transition-all duration-300 group-hover:border-emerald-400/60"
+                class="border border-white/20 rounded-lg p-3 sm:p-4 bg-slate-900/50 backdrop-blur-sm transition-all duration-300 group-hover:border-emerald-400/60"
               >
-                <div class="text-xs text-slate-400">Category</div>
-                <h2 class="text-lg text-emerald-300 font-bold">
+                <div class="text-[0.7rem] sm:text-xs text-slate-400">
+                  Category
+                </div>
+                <h2 class="text-base sm:text-lg text-emerald-300 font-bold">
                   {{ core.name }}
                 </h2>
-                <div class="h-px bg-white/10 my-2"></div>
-                <p class="text-xs text-slate-400">
+                <div class="h-px bg-white/10 my-1 sm:my-2"></div>
+                <p class="text-[0.7rem] sm:text-xs text-slate-400">
                   {{ core.skills.length }} modules
                 </p>
               </div>
@@ -58,7 +61,7 @@
         </div>
 
         <!-- Column 2: Modules (Skills) -->
-        <div class="space-y-6">
+        <div class="space-y-4 sm:space-y-6">
           <h2 class="text-slate-400 text-sm border-b border-white/10 pb-2">
             Modules
           </h2>
@@ -68,7 +71,7 @@
               :key="skill.id"
               data-sound
               @click="handleSkillClick(skill)"
-              class="transition-all duration-500 ease-out block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10 transition-all duration-500 ease-in-out"
+              class="transition-all duration-500 ease-out block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10"
               :class="{
                 [skillClass(skill)]: true,
                 'opacity-100 translate-y-0': isMounted,
@@ -76,14 +79,18 @@
               }"
               :style="{ transitionDelay: `${index * 100}ms` }"
             >
-              <p class="text-slate-200 font-semibold">{{ skill.name }}</p>
-              <p class="text-xs text-slate-500">{{ skill.type }}</p>
+              <p class="text-slate-200 font-semibold text-sm sm:text-base">
+                {{ skill.name }}
+              </p>
+              <p class="text-[0.7rem] sm:text-xs text-slate-500">
+                {{ skill.type }}
+              </p>
             </button>
           </TransitionGroup>
         </div>
 
         <!-- Column 3: Activation History (Projects) -->
-        <div class="space-y-6">
+        <div class="space-y-4 sm:space-y-6">
           <h2 class="text-slate-400 text-sm border-b border-white/10 pb-2">
             Activation History
           </h2>
@@ -93,7 +100,7 @@
               :key="project.id"
               data-sound
               @click="openProjectModal(project)"
-              class="transition-all duration-500 ease-out block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10 transition-all duration-500 ease-in-out"
+              class="transition-all duration-500 ease-out block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10"
               :class="{
                 [projectClass(project)]: true,
                 'opacity-100 translate-y-0': isMounted,
@@ -101,8 +108,12 @@
               }"
               :style="{ transitionDelay: `${index * 100}ms` }"
             >
-              <p class="text-emerald-300">{{ project.name }}</p>
-              <p class="text-xs text-slate-400">{{ project.period }}</p>
+              <p class="text-emerald-300 text-sm sm:text-base">
+                {{ project.name }}
+              </p>
+              <p class="text-[0.7rem] sm:text-xs text-slate-400">
+                {{ project.period }}
+              </p>
             </button>
           </TransitionGroup>
         </div>
@@ -126,6 +137,10 @@ import {
   type Skill,
   type Project,
 } from "../data/profile";
+
+useHead({
+  title: "Skills | Hin Jian Heng",
+});
 
 const categories = [
   "AI/ML",
@@ -203,11 +218,11 @@ const skillClass = (skill: Skill) => {
   } else if (activeCore.value && skill.category === activeCore.value) {
     // is current core
     classes.push(
-      "opacity-90 scale-105 text-emerald-300 border border-emerald-300/30 shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+      " opacity-90 scale-105 text-emerald-300 border border-emerald-300/30 shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
     );
   } else if (activeCore.value) {
     //not current core
-    classes.push("opacity-40 scale-95 text-slate-400 blur-sm");
+    classes.push(" opacity-40 scale-95 text-slate-400 blur-sm");
   } else {
     //no core
     classes.push("opacity-100 scale-100 text-slate-200");
@@ -221,7 +236,7 @@ const projectClass = (project: Project) => {
     return "opacity-100 scale-100 hover:border-emerald-400/60";
   return activeProjectIds.value.has(project.id)
     ? "opacity-100 scale-105 border-emerald-400/60"
-    : "opacity-40 scale-95";
+    : " opacity-40 scale-95 text-slate-400 blur-sm";
 };
 
 const handleCoreClick = (coreName: Skill["category"]) => {
