@@ -155,10 +155,8 @@ const lastPlay = {
 const COOLDOWN = 200;
 
 onMounted(() => {
-  if (process) {
-    clickSound = new Audio("/clickSound.wav");
-    hoverSound = new Audio("/hoverSound.wav");
-  }
+  clickSound = new Audio("/clickSound.wav");
+  hoverSound = new Audio("/hoverSound.wav");
 });
 
 function playSound(audio: HTMLAudioElement | null, type: "click" | "hover") {

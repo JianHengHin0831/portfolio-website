@@ -71,10 +71,9 @@ const lastPlay = {
 const COOLDOWN = 200;
 
 onMounted(() => {
-  if (process.client) {
-    clickSound = new Audio("/clickSound.wav");
-    hoverSound = new Audio("/hoverSound.wav");
-  }
+  clickSound = new Audio("/clickSound.wav");
+  hoverSound = new Audio("/hoverSound.wav");
+
   let prevValue = null;
   setInterval(() => {
     const current = sessionStorage.getItem("visited_home");
