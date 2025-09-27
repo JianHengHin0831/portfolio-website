@@ -1,7 +1,7 @@
 export async function typeLine(
   full: string,
   visibleLines: string[],
-  isActive: Ref<boolean> = ref(false)
+  isActive: Ref<boolean> = ref(true)
 ) {
   const buffer = [] as string[];
 

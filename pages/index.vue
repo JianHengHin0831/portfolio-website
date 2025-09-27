@@ -205,6 +205,7 @@ async function playBootSequence() {
   }
   await delay(500);
   showWelcome.value = true;
+
   sessionStorage.setItem("visited_home", "terminal");
 }
 
