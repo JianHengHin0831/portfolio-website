@@ -62,8 +62,8 @@
             capabilities.
           </p>
           <p class="mb-2">
-            You may issue commands via the terminal or use scroll navigation for
-            a guided overview.
+            You may issue commands via the terminal or click 'visual mode'
+            button for a guided overview.
           </p>
           <p>Suggested command: {{ placeholder }}.</p>
 
