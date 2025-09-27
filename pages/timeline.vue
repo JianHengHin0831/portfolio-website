@@ -26,6 +26,7 @@
         <div
           v-for="(e, i) in experiences"
           :key="i"
+          data-sound
           ref="timelineNodes"
           class="relative group"
         >

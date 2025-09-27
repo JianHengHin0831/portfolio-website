@@ -35,8 +35,8 @@
 
     <!-- GUI button -->
     <button
+      data-sound
       @click="toggleMode"
-      @mouseenter="playHoverSound"
       class="absolute top-4 right-4 z-50 flex items-center px-4 py-2 border-2 border-cyan-400 text-cyan-400 rounded-lg text-sm uppercase font-semibold tracking-wider transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-cyan-400 hover:bg-cyan-400 hover:text-gray-900 hover:shadow-[0_0_15px_theme(colors.cyan.400)]"
     >
       <Icon name="mdi:grid-large" class="w-5 h-5 mr-2 text-white" />
@@ -143,40 +143,7 @@ const isFirstVisit = ref(false);
 const isFocused = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 
-let clickSound: HTMLAudioElement | null = null;
-let hoverSound: HTMLAudioElement | null = null;
-
-// 用 ref 保存上次播放的时间戳
-const lastPlay = {
-  click: 0,
-  hover: 0,
-};
-
-const COOLDOWN = 200;
-
-onMounted(() => {
-  clickSound = new Audio("/clickSound.wav");
-  hoverSound = new Audio("/hoverSound.wav");
-});
-
-function playSound(audio: HTMLAudioElement | null, type: "click" | "hover") {
-  if (!audio) return;
-
-  const now = Date.now();
-  if (now - lastPlay[type] < COOLDOWN) return;
-
-  lastPlay[type] = now;
-  audio.currentTime = 0;
-  audio.play();
-}
-
-function playHoverSound() {
-  playSound(hoverSound, "hover");
-}
-
 const toggleMode = () => {
-  playSound(clickSound, "click");
-
   isGuiMode.value = !isGuiMode.value;
   if (isGuiMode.value) {
     sessionStorage.setItem("visited_home", "GUI");

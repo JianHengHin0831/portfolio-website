@@ -29,11 +29,17 @@
           </h2>
           <div class="space-y-4">
             <button
-              v-for="core in cores"
+              v-for="(core, index) in cores"
               :key="core.name"
+              data-sound
               @click="handleCoreClick(core.name)"
-              class="group w-full text-left transition-all duration-500 ease-in-out"
-              :class="coreClass(core.name)"
+              class="transition-all duration-500 ease-out group w-full text-left transition-all duration-500 ease-in-out"
+              :class="{
+                [coreClass(core.name)]: true,
+                'opacity-100 translate-y-0': isMounted,
+                'opacity-0 translate-y-16': !isMounted,
+              }"
+              :style="{ transitionDelay: `${index * 100}ms` }"
             >
               <div
                 class="border border-white/20 rounded-lg p-4 bg-slate-900/50 backdrop-blur-sm transition-all duration-300 group-hover:border-emerald-400/60"
@@ -58,11 +64,17 @@
           </h2>
           <TransitionGroup tag="div" name="list" class="relative space-y-3">
             <button
-              v-for="skill in displayedSkills"
+              v-for="(skill, index) in displayedSkills"
               :key="skill.id"
+              data-sound
               @click="handleSkillClick(skill)"
-              class="block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10 transition-all duration-500 ease-in-out"
-              :class="skillClass(skill)"
+              class="transition-all duration-500 ease-out block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10 transition-all duration-500 ease-in-out"
+              :class="{
+                [skillClass(skill)]: true,
+                'opacity-100 translate-y-0': isMounted,
+                'opacity-0 translate-y-16': !isMounted,
+              }"
+              :style="{ transitionDelay: `${index * 100}ms` }"
             >
               <p class="text-slate-200 font-semibold">{{ skill.name }}</p>
               <p class="text-xs text-slate-500">{{ skill.type }}</p>
@@ -77,11 +89,17 @@
           </h2>
           <TransitionGroup tag="div" name="list" class="relative space-y-3">
             <button
-              v-for="project in displayedProjects"
+              v-for="(project, index) in displayedProjects"
               :key="project.id"
+              data-sound
               @click="openProjectModal(project)"
-              class="block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10 transition-all duration-500 ease-in-out"
-              :class="projectClass(project)"
+              class="transition-all duration-500 ease-out block w-full text-left p-3 rounded bg-slate-900/50 border border-white/10 transition-all duration-500 ease-in-out"
+              :class="{
+                [projectClass(project)]: true,
+                'opacity-100 translate-y-0': isMounted,
+                'opacity-0 translate-y-16': !isMounted,
+              }"
+              :style="{ transitionDelay: `${index * 100}ms` }"
             >
               <p class="text-emerald-300">{{ project.name }}</p>
               <p class="text-xs text-slate-400">{{ project.period }}</p>
@@ -101,7 +119,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import {
   skills as skillsData,
   projects as projectsData,
@@ -244,6 +262,13 @@ const handleViewProjectFromSkill = (projectId: string) => {
     setTimeout(() => openProjectModal(project), 150);
   }
 };
+
+const isMounted = ref(false);
+onMounted(() => {
+  setTimeout(() => {
+    isMounted.value = true;
+  }, 100);
+});
 </script>
 
 <style>

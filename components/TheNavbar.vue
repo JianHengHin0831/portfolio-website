@@ -6,14 +6,13 @@
           v-for="(item, index) in navItems"
           :key="item.name"
           class="unfold-item"
+          data-sound
           :style="{ '--delay': `${index * 100}ms` }"
         >
           <NuxtLink
             :to="item.path"
             class="group relative flex items-center justify-center w-16 h-[68px]"
             active-class="is-active"
-            @mouseenter="playHoverSound"
-            @click="playClickSound"
           >
             <svg
               class="absolute inset-0 w-full h-full fill-gray-800/50 stroke-cyan-400/50 stroke-2 transition-all duration-300 group-hover:fill-cyan-400/20 group-hover:stroke-cyan-400 group-[.is-active]:fill-cyan-400/30 group-[.is-active]:stroke-cyan-400"
@@ -56,24 +55,11 @@ const navItems = [
   { name: "Terminal", path: "/", icon: "heroicons:command-line" },
 ];
 
-//sound
 import { ref, onMounted } from "vue";
-const route = useRoute();
-let clickSound = null;
-let hoverSound = null;
+
 const showMode = ref("terminal");
 
-const lastPlay = {
-  click: 0,
-  hover: 0,
-};
-
-const COOLDOWN = 200;
-
 onMounted(() => {
-  clickSound = new Audio("/clickSound.wav");
-  hoverSound = new Audio("/hoverSound.wav");
-
   let prevValue = null;
   setInterval(() => {
     const current = sessionStorage.getItem("visited_home");
@@ -83,25 +69,6 @@ onMounted(() => {
     }
   }, 300);
 });
-
-function playSound(audio, type) {
-  if (!audio) return;
-
-  const now = Date.now();
-  if (now - lastPlay[type] < COOLDOWN) return;
-
-  lastPlay[type] = now;
-  audio.currentTime = 0;
-  audio.play();
-}
-
-function playClickSound() {
-  playSound(clickSound, "click");
-}
-
-function playHoverSound() {
-  playSound(hoverSound, "hover");
-}
 </script>
 
 <style>

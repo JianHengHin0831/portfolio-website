@@ -12,10 +12,15 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <article
-          v-for="p in projects"
+          v-for="(p, index) in projects"
+          :style="{ transitionDelay: `${index * 100}ms` }"
+          :class="
+            isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          "
           :key="p.id"
+          data-sound
           @click="openModal(p)"
-          class="group bg-white/5 cursor-pointer border border-white/10 rounded-lg p-5 hover:border-emerald-400/40 transition-all duration-500 [transform-style:preserve-3d] hover:[transform:rotateX(3deg)_rotateY(-4deg)_translateZ(6px)]"
+          class="transition-all duration-500 ease-out group bg-white/5 cursor-pointer border border-white/10 rounded-lg p-5 hover:border-emerald-400/40 transition-all duration-500 [transform-style:preserve-3d] hover:[transform:rotateX(3deg)_rotateY(-4deg)_translateZ(6px)]"
         >
           <header class="flex items-center justify-between mb-2">
             <h2 class="text-emerald-300">{{ p.name }}</h2>
@@ -57,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { projects as projectsData, type Project } from "../data/profile";
 
 const projects = projectsData;
@@ -70,4 +75,11 @@ function openModal(project: Project) {
 function closeModal() {
   selectedProject.value = null;
 }
+
+const isMounted = ref(false);
+onMounted(() => {
+  setTimeout(() => {
+    isMounted.value = true;
+  }, 100);
+});
 </script>

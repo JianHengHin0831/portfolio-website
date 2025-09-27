@@ -21,6 +21,7 @@
         <!-- Loop through contact methods -->
         <div
           v-for="(method, index) in contactMethods"
+          data-sound
           :key="method.name"
           :style="{ transitionDelay: `${index * 100}ms` }"
           class="transition-all duration-500 ease-out"

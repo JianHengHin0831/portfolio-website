@@ -35,6 +35,7 @@
               <div class="text-xs text-slate-400">hover points for details</div>
             </div>
             <button
+              data-sound
               class="text-xs px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded z-20"
               @click="summarySkill"
             >
@@ -58,7 +59,8 @@
         <div class="flex items-center justify-between mb-2">
           <h2 class="text-emerald-300">Activity Log</h2>
           <button
-            class="text-xs px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded"
+            data-sound
+            class="z-[20] text-xs px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded"
             @click="fetchGithub"
           >
             sync github
