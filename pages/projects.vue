@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 font-mono">
+  <div class="min-h-screen bg-transparent text-slate-100 font-mono">
     <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-xl text-emerald-300">
@@ -14,7 +14,8 @@
         <article
           v-for="p in projects"
           :key="p.id"
-          class="group bg-white/5 border border-white/10 rounded-lg p-5 hover:border-emerald-400/40 transition-all duration-500 [transform-style:preserve-3d] hover:[transform:rotateX(3deg)_rotateY(-4deg)_translateZ(6px)]"
+          @click="openModal(p)"
+          class="group bg-white/5 cursor-pointer border border-white/10 rounded-lg p-5 hover:border-emerald-400/40 transition-all duration-500 [transform-style:preserve-3d] hover:[transform:rotateX(3deg)_rotateY(-4deg)_translateZ(6px)]"
         >
           <header class="flex items-center justify-between mb-2">
             <h2 class="text-emerald-300">{{ p.name }}</h2>
@@ -40,72 +41,33 @@
             </div>
           </div>
 
-          <details class="mt-2 overflow-hidden rounded group">
-            <summary
-              class="cursor-pointer text-slate-300 hover:text-emerald-300 transition-colors"
-            >
-              <span
-                class="inline-block transition-transform group-open:rotate-90 mr-1"
-                >▸</span
-              >
-              Post-Mortem Analysis
-            </summary>
-            <div
-              class="mt-3 space-y-3 will-change-transform transition-all duration-500 ease-out group-open:[transform:translateZ(12px)] group-open:[filter:drop-shadow(0_10px_30px_rgba(16,185,129,0.18))]"
-            >
-              <div class="flex gap-2 text-xs">
-                <button
-                  @click="setTab(p.id, 'brief')"
-                  :class="tabClass(p.id, 'brief')"
-                >
-                  Technical Brief
-                </button>
-                <button
-                  @click="setTab(p.id, 'impact')"
-                  :class="tabClass(p.id, 'impact')"
-                >
-                  Business Impact
-                </button>
-                <button
-                  @click="setTab(p.id, 'simple')"
-                  :class="tabClass(p.id, 'simple')"
-                >
-                  Simple Explanation
-                </button>
-              </div>
-              <div class="text-sm whitespace-pre-wrap">
-                {{ activeText(p) }}
-              </div>
-            </div>
-          </details>
+          <button
+            @click="openModal(p)"
+            class="mt-2 text-slate-300 hover:text-emerald-300 transition-colors w-full text-left"
+          >
+            <span class="inline-block mr-1">▸</span>
+            Post-Mortem Analysis
+          </button>
         </article>
       </div>
     </div>
+
+    <ProjectModal :project="selectedProject" @close="closeModal" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { projects as projectsData } from "../data/profile";
+import { projects as projectsData, type Project } from "../data/profile";
 
 const projects = projectsData;
-const tabs = ref<Record<string, "brief" | "impact" | "simple">>({});
+const selectedProject = ref<Project | null>(null);
 
-function setTab(id: string, t: "brief" | "impact" | "simple") {
-  tabs.value[id] = t;
+function openModal(project: Project) {
+  selectedProject.value = project;
 }
 
-function tabClass(id: string, t: "brief" | "impact" | "simple") {
-  const active = (tabs.value[id] || "brief") === t;
-  return active
-    ? "px-2 py-1 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-400/30"
-    : "px-2 py-1 rounded bg-slate-900/60 text-slate-300 border border-white/10 hover:text-emerald-300";
-}
-
-function activeText(p: (typeof projects)[0]) {
-  const t = tabs.value[p.id] || "brief";
-  if (t === "impact") return p.businessImpact;
-  if (t === "simple") return p.simple;
-  return p.brief;
+function closeModal() {
+  selectedProject.value = null;
 }
 </script>

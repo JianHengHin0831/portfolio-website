@@ -1,9 +1,12 @@
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 font-mono">
+  <div class="min-h-screen bg-transparent text-slate-100 font-mono">
     <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-xl text-emerald-300">JIAN // Main Dashboard</h1>
-        <NuxtLink to="/" class="text-emerald-300 hover:underline"
+        <NuxtLink
+          to="/"
+          class="text-emerald-300 hover:underline"
+          v-if="showMode != 'GUI'"
           >/home</NuxtLink
         >
       </div>
@@ -13,16 +16,12 @@
           class="col-span-1 bg-white/5 border border-white/10 rounded-lg p-5"
         >
           <h2 class="text-emerald-300 mb-4">Identity Profile</h2>
-          <ul class="space-y-2">
-            <li><span class="text-slate-400">Unit:</span> Hin Jian Heng</li>
-            <li><span class="text-slate-400">Class:</span> AI Engineer</li>
-            <li>
-              <span class="text-slate-400">Status:</span> Active | Pursuing
-              Master's in AI
-            </li>
-            <li>
-              <span class="text-slate-400">Primary Directive:</span> To develop
-              and deploy efficient, real-time AI systems.
+          <ul
+            class="space-y-2 text-sm font-mono tracking-wide border-l border-slate-700 pl-4"
+          >
+            <li v-for="(item, index) in profileInfo" :key="index">
+              <span class="text-slate-400">{{ item.label }}:</span>
+              <span>{{ item.value }}</span>
             </li>
           </ul>
         </section>
@@ -31,24 +30,26 @@
           class="col-span-1 lg:col-span-2 bg-white/5 border border-white/10 rounded-lg p-5"
         >
           <div class="flex items-center justify-between mb-2">
-            <h2 class="text-emerald-300">Core Competency Radar</h2>
+            <div>
+              <h2 class="text-emerald-300">Core Competency Radar</h2>
+              <div class="text-xs text-slate-400">hover points for details</div>
+            </div>
             <button
-              class="text-xs px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded"
-              @click="shuffleData"
+              class="text-xs px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded z-20"
+              @click="summarySkill"
             >
-              randomize
+              Summary
             </button>
           </div>
           <div class="relative perspective-[1200px]">
-            <canvas
-              ref="radarRef"
-              width="640"
-              height="420"
-              class="w-full max-w-full will-change-transform transition-transform duration-500 ease-out hover:rotate-x-3 hover:rotate-y-[-2deg]"
-            ></canvas>
-            <div class="absolute top-2 right-2 text-xs text-slate-400">
-              hover points for details
-            </div>
+            <SkillRadar v-show="!showSummary" />
+            <pre
+              v-show="showSummary"
+              class="m-0 mb-2 whitespace-pre-wrap leading-relaxed text-emerald-100 drop-shadow-[0_0_6px_rgba(80,220,120,0.35)]"
+              v-for="(line, idx) in visibleLines"
+              :key="idx"
+              >{{ line }}</pre
+            >
           </div>
         </section>
       </div>
@@ -79,31 +80,113 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { delay, typeLine } from "../uitls/helper";
 
-type RadarDatum = { label: string; value: number };
-
-const radarRef = ref<HTMLCanvasElement | null>(null);
-const tooltip = ref<{ x: number; y: number; text: string } | null>(null);
+type RadarDatum = { label: string; value: number; tools?: string[] };
+const showSummary = ref(false);
 
 let radarData: RadarDatum[] = [
-  { label: "Machine Learning", value: 85 },
-  { label: "Cloud & DevOps", value: 75 },
-  { label: "System Architecture", value: 80 },
-  { label: "Frontend Dev", value: 70 },
-  { label: "LLM Ops", value: 78 },
+  {
+    label: "Machine Learning",
+    value: 90,
+    tools: ["PyTorch", "TensorFlow", "scikit-learn", "TabNet"],
+  },
+  {
+    label: "Cloud & DevOps",
+    value: 80,
+    tools: ["GCP", "Docker", "CI/CD", "Supabase", "Vercel"],
+  },
+  {
+    label: "System Architecture",
+    value: 75,
+    tools: ["Microservices", "REST API", "Authentication", "Caching"],
+  },
+  {
+    label: "Frontend Dev",
+    value: 70,
+    tools: ["Nuxt.js", "Tailwind CSS", "TypeScript", "LangChain.js"],
+  },
+  {
+    label: "Computer Vision",
+    value: 65,
+    tools: ["OpenCV", "CNN", "Diffusion Models", "DCGAN"],
+  },
+  {
+    label: "NLP",
+    value: 75,
+    tools: ["Transformers", "Hugging Face", "RAG", "Vector Embeddings"],
+  },
+];
+
+const radarRef = ref<HTMLCanvasElement | null>(null);
+const tooltip = ref<{
+  x: number;
+  y: number;
+  text: string;
+  detail?: string;
+} | null>(null);
+
+const profileInfo = [
+  { label: "Unit", value: "Hin Jian Heng" },
+  { label: "Class", value: "Master's in Artificial Intelligence (UM)" },
+  { label: "Status", value: "Active" },
+  {
+    label: "Primary Directive",
+    value: "To develop and deploy efficient, real-time AI systems.",
+  },
+  {
+    label: "Specialization",
+    value: "Interpretable ML, RAG, Real-time AI Deployment",
+  },
+  {
+    label: "Education",
+    value: "BSc Computer Science (First Class, Southampton)",
+  },
+  { label: "Certifications", value: "IBM AI Engineering (2025)" },
+  { label: "Languages", value: "English, Chinese" },
+  { label: "Location", value: "Malaysia (GMT+8)" },
+  { label: "Years Active", value: "4" },
+  {
+    label: "Core Skills",
+    value: "PyTorch, TensorFlow, Transformers, GCP, Nuxt.js, MLOps, Docker",
+  },
 ];
 
 let animFrom: number[] | null = null;
 let animTo: number[] | null = null;
 let animStart = 0;
 const animDuration = 650;
+const visibleLines = ref<string[]>([]);
+const showMode = ref("GUI");
+onMounted(() => {
+  if (sessionStorage.getItem("visited_home")) {
+    showMode.value = sessionStorage.getItem("visited_home") || "GUI";
+  }
+});
+const summaryLines: string[] = [
+  "Strong in Machine Learning, Cloud, System Design, Frontend, NLP, and Computer Vision.",
+  "Can build and run AI systems that work fast and explain results clearly.",
+  "Uses tools like PyTorch, TensorFlow, Transformers, GCP, Nuxt.js, MLOps, and Docker.",
+  "Always learning and improving, integrating skills with real projects.",
+];
 
-function shuffleData() {
-  const next = radarData.map((d) => ({
-    ...d,
-    value: 60 + Math.round(Math.random() * 40),
-  }));
-  startInterp(next);
+async function summarySkill() {
+  showSummary.value = !showSummary.value;
+  if (showSummary.value) {
+    visibleLines.value = ["Thinking...."];
+    await delay(1000);
+    visibleLines.value = [];
+    for (const line of summaryLines) {
+      visibleLines.value = await typeLine(
+        line,
+        visibleLines.value,
+        showSummary
+      );
+    }
+    await delay(500);
+  } else {
+    visibleLines.value = [];
+  }
 }
 
 function drawRadar() {
@@ -178,6 +261,36 @@ function drawRadar() {
     ctx.arc(x, y, 4, 0, Math.PI * 2);
     ctx.fill();
   });
+
+  if (tooltip.value) {
+    const t = tooltip.value;
+    const ctx2 = ctx;
+    const padding = 6;
+    ctx2.font =
+      "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace";
+
+    const mainTextW = ctx2.measureText(t.text).width;
+    const detailTextW = t.detail ? ctx2.measureText(t.detail).width : 0;
+    const textW = Math.max(mainTextW, detailTextW);
+    const boxW = textW + padding * 2;
+    const boxH = t.detail ? 40 : 22;
+
+    ctx2.fillStyle = "rgba(2,6,23,0.9)";
+    ctx2.strokeStyle = "rgba(94,234,212,0.4)";
+    ctx2.lineWidth = 1;
+    ctx2.beginPath();
+    ctx2.rect(t.x, t.y, boxW, boxH);
+    ctx2.fill();
+    ctx2.stroke();
+
+    ctx2.fillStyle = "#e2e8f0";
+    ctx2.fillText(t.text, t.x + padding, t.y + 15);
+
+    if (t.detail) {
+      ctx2.fillStyle = "rgba(94,234,212,0.9)";
+      ctx2.fillText(t.detail, t.x + padding, t.y + 30);
+    }
+  }
 }
 
 function startInterp(next: RadarDatum[]) {
@@ -210,23 +323,20 @@ function startInterp(next: RadarDatum[]) {
   requestAnimationFrame(step);
 }
 
-// simple hover tooltip (canvas mousemove)
 function setupHover() {
   const canvas = radarRef.value;
   if (!canvas) return;
   const rect = () => canvas.getBoundingClientRect();
-  const handler = (e: MouseEvent) => {
-    const ctx = canvas.getContext("2d")!;
+
+  const getHitSkill = (mx: number, my: number): RadarDatum | null => {
     const w = canvas.width;
     const h = canvas.height;
     const cx = w / 2;
     const cy = h / 2 + 10;
     const radius = Math.min(w, h) * 0.36;
     const spokes = radarData.length;
-    const mx = e.clientX - rect().left;
-    const my = e.clientY - rect().top;
 
-    let hit = null as null | string;
+    let hitSkill: RadarDatum | null = null;
     radarData.forEach((d, i) => {
       const a = (Math.PI * 2 * i) / spokes - Math.PI / 2;
       const rr = (d.value / 100) * radius;
@@ -234,33 +344,46 @@ function setupHover() {
       const y = cy + rr * Math.sin(a);
       const dx = mx - x;
       const dy = my - y;
-      if (dx * dx + dy * dy < 9 * 9) hit = `${d.label}: ${d.value}`;
+      if (dx * dx + dy * dy < 9 * 9) hitSkill = d;
     });
-    tooltip.value = hit ? { x: mx + 12, y: my + 12, text: hit } : null;
-
-    // redraw to show tooltip
-    drawRadar();
-    if (tooltip.value) {
-      const t = tooltip.value;
-      const ctx2 = ctx;
-      ctx2.fillStyle = "rgba(2,6,23,0.9)";
-      ctx2.strokeStyle = "rgba(94,234,212,0.4)";
-      ctx2.lineWidth = 1;
-      const padding = 6;
-      ctx2.font =
-        "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace";
-      const textW = ctx2.measureText(t.text).width;
-      const boxW = textW + padding * 2;
-      const boxH = 22;
-      ctx2.beginPath();
-      ctx2.rect(t.x, t.y, boxW, boxH);
-      ctx2.fill();
-      ctx2.stroke();
-      ctx2.fillStyle = "#e2e8f0";
-      ctx2.fillText(t.text, t.x + padding, t.y + 15);
-    }
+    return hitSkill;
   };
-  canvas.addEventListener("mousemove", handler);
+
+  canvas.addEventListener("mousemove", (e) => {
+    const mx = e.clientX - rect().left;
+    const my = e.clientY - rect().top;
+    const skill = getHitSkill(mx, my);
+    if (skill) {
+      tooltip.value = {
+        x: mx + 12,
+        y: my + 12,
+        text: `${skill.label}: ${skill.value}`,
+      };
+    } else {
+      tooltip.value = null;
+    }
+    drawRadar();
+  });
+
+  canvas.addEventListener("mousedown", (e) => {
+    const mx = e.clientX - rect().left;
+    const my = e.clientY - rect().top;
+    const skill = getHitSkill(mx, my);
+    if (skill) {
+      tooltip.value = {
+        x: mx + 12,
+        y: my + 12,
+        text: skill.label,
+        detail: skill.tools?.join(", "),
+      };
+      drawRadar();
+    }
+  });
+
+  canvas.addEventListener("mouseup", () => {
+    tooltip.value = null;
+    drawRadar();
+  });
 }
 
 // activity log

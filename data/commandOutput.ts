@@ -26,8 +26,63 @@ const helpOutput = [
   "  clear        - Clear the terminal history",
 ].join("\n");
 
-const timelineOutput = ["Will be insert later timeline."].join("\n");
-const dashboardOutput = ["Will be insert later dashboard."].join("\n");
+const timelineOutput = [
+  "> exec command: log --history --filter=development",
+  " ",
+  "Fetching development timeline for unit HJH-0831...",
+  "--- [ CHRONOLOGICAL LOG ] ---",
+  " ",
+  "[TIMESTAMP: OCT 2025 -- PREDICTED]",
+  "  EVENT: Advanced training protocol initiated.",
+  "  MODULE: Master of Artificial Intelligence.",
+  "  INSTITUTION: University of Malaya (#60 QS 2025).",
+  "  FOCUS_AREAS: [Advanced ML Algorithms], [Reinforcement Learning], [AI Ethics].",
+  " ",
+  "---",
+  " ",
+  "[TIMESTAMP: MAR 2025]",
+  "  EVENT: Certification module completed.",
+  "  MODULE: IBM AI Engineering Professional Certificate.",
+  "  OUTCOME: Acquired industry-standard competencies in AI lifecycle management.",
+  " ",
+  "---",
+  " ",
+  "[TIMESTAMP: JUN 2024 - OCT 2024]",
+  "  EVENT: Field deployment and practical application (Internship).",
+  "  ROLE: Software Engineer Intern.",
+  "  ORGANIZATION: Feedme POS.",
+  "  ACHIEVEMENT: Developed a component-based website builder using Nuxt.js, significantly improving content update efficiency. Deployed to live corporate site (Feedme.ai).",
+  " ",
+  "---",
+  " ",
+  "[TIMESTAMP: OCT 2022 - JUN 2025]",
+  "  EVENT: Core programming and foundational model training.",
+  "  MODULE: Bachelor of Science in Computer Science.",
+  "  INSTITUTION: University of Southampton, Malaysia Campus (#80 QS 2025).",
+  "  MILESTONE: Graduated with First Class Honours (72.92%).",
+  "  ACQUIRED_SKILLS: [Machine Learning], [Natural Language Processing], [Cloud & Website Security].",
+  " ",
+  "--- [ LOG END ] ---",
+].join("\n");
+
+const dashboardOutput = [
+  "// HJH-Cognitive-Engine v1.0",
+  "// Identity Matrix Loaded...",
+  " ",
+  "ID:          HJH-0831",
+  "DESIGNATION: AI Engineer",
+  "STATUS:      Active | Commencing Master's studies (Oct 2025)",
+  " ",
+  "PRIMARY_DIRECTIVE:",
+  "  > To engineer and deploy efficient, end-to-end AI systems with a focus on real-time applications and model interpretability.",
+  " ",
+  "CORE_ATTRIBUTES:",
+  "  - First Class Honours, Computer Science (BSc)",
+  "  - Proficient in PyTorch, GCP, and MLOps practices",
+  "  - Experienced in building production-level AI solutions from concept to deployment",
+  " ",
+  "// Awaiting command...",
+].join("\n");
 
 const aboutOutput = [
   "JIAN is the Cognitive AI Interface for Hin Jian Heng's portfolio.",
@@ -76,6 +131,11 @@ const contactOutput = [
   "",
   "Hint: To use the contact form, navigate to the contact section via the visual interface.",
 ].join("\n");
+
+export function getTimeStamp() {
+  const now = new Date();
+  return `[${now.toLocaleTimeString()}] `;
+}
 
 export const outputGenerator = (baseCommand: string) => {
   switch (baseCommand) {

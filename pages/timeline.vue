@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 font-mono">
+  <div class="min-h-screen bg-transparent text-slate-100 font-mono">
     <div class="max-w-4xl mx-auto px-6 py-10">
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center justify-between mb-12">
         <h1 class="text-xl text-emerald-300">
           Development Timeline // Experience & Education
         </h1>
@@ -11,25 +11,45 @@
       </div>
 
       <div class="relative">
+        <!-- 1. Background static line -->
         <div
-          class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-emerald-500/30"
+          class="absolute left-4 -ml-px w-0.5 h-full bg-emerald-500/20"
         ></div>
+
+        <!-- 2. Foreground "active" growing line -->
+        <div
+          ref="activeLine"
+          class="absolute left-4 -ml-px w-0.5 bg-emerald-400 shadow-[0_0_12px_theme(colors.emerald.400)] transition-all duration-500 ease-out"
+          :style="{ height: activeLineHeight + 'px' }"
+        ></div>
+
         <div
           v-for="(e, i) in experiences"
           :key="i"
-          ref="nodes"
-          class="relative mb-10 transition-all duration-700"
-          :class="
-            revealed[i]
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-6'
-          "
+          ref="timelineNodes"
+          class="relative group"
         >
           <div
-            class="w-3 h-3 rounded-full bg-emerald-400 absolute left-[calc(1rem-6px)] md:left-[calc(50%-6px)] top-1.5 shadow-[0_0_0_4px_rgba(16,185,129,0.15)]"
+            class="w-3 h-3 rounded-full bg-emerald-400 absolute left-[calc(1rem-6px)] top-1.5 transition-transform duration-300"
+            :class="revealed[i] ? 'scale-100 animate-pulse-glow' : 'scale-0'"
           ></div>
-          <div class="ml-8 md:ml-0 md:pl-10 md:w-1/2 md:float-right">
-            <div class="bg-white/5 border border-white/10 rounded-lg p-4">
+
+          <div
+            class="pl-10 pb-12 transition-all duration-700 ease-out"
+            :class="
+              revealed[i]
+                ? 'opacity-100 translate-y-0 scale-100'
+                : 'opacity-0 translate-y-8 scale-95'
+            "
+          >
+            <!-- Horizontal connector line -->
+            <div
+              class="absolute left-7 top-[1.1rem] w-3 h-px bg-emerald-500/30"
+            ></div>
+
+            <div
+              class="bg-white/5 border border-white/10 rounded-lg p-4 group-hover:border-emerald-400/40 transition-colors duration-300"
+            >
               <div class="text-xs text-slate-400 mb-1">
                 [Event:
                 {{
@@ -43,7 +63,9 @@
               <div class="text-slate-400 text-xs mb-2">
                 [Period: {{ e.period }}]
               </div>
-              <ul class="list-disc list-inside text-sm">
+              <ul
+                class="list-disc list-inside text-sm text-slate-300 space-y-1"
+              >
                 <li v-for="(d, j) in e.details" :key="j">{{ d }}</li>
               </ul>
             </div>
@@ -55,25 +77,66 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, onBeforeUnmount, ref } from "vue";
 import { experiences } from "../data/profile";
 
-const nodes = ref<HTMLDivElement[] | null>(null);
+const timelineNodes = ref<HTMLElement[] | null>(null);
+const activeLine = ref<HTMLElement | null>(null);
+const activeLineHeight = ref(0);
 const revealed = ref<boolean[]>(experiences.map(() => false));
 
+let observer: IntersectionObserver;
+
 onMounted(() => {
-  const els = (nodes.value as unknown as HTMLElement[]) || [];
-  const observer = new IntersectionObserver(
+  const nodes = (timelineNodes.value as HTMLElement[]) || [];
+  if (nodes.length === 0) return;
+
+  observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const idx = els.indexOf(entry.target as HTMLDivElement);
-          if (idx >= 0) revealed.value[idx] = true;
+          const target = entry.target as HTMLElement;
+          const idx = nodes.indexOf(target);
+          if (idx !== -1) {
+            revealed.value[idx] = true;
+
+            const newHeight =
+              target.offsetTop +
+              target.querySelector(".bg-white\\/5")!.clientHeight / 2;
+            if (newHeight > activeLineHeight.value) {
+              activeLineHeight.value = newHeight;
+            }
+          }
         }
       });
     },
-    { threshold: 0.2 }
+    { rootMargin: "0px 0px -20% 0px", threshold: 0.1 }
   );
-  els.forEach((el) => observer.observe(el));
+
+  nodes.forEach((el) => observer.observe(el));
+});
+
+onBeforeUnmount(() => {
+  if (observer) {
+    observer.disconnect();
+  }
 });
 </script>
+
+<style>
+@keyframes pulse-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px 8px rgba(16, 185, 129, 0.3);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+</style>

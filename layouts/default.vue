@@ -25,26 +25,39 @@
       <!-- Twinkling particles -->
       <div class="absolute inset-0">
         <div
-          v-for="n in 25"
-          :key="n"
-          class="absolute w-1 h-1 rounded-full bg-cyan-400 opacity-70 animate-twinkle"
+          v-if="style1"
           :style="{
-            top: Math.random() * 100 + '%',
-            left: Math.random() * 100 + '%',
-            animationDelay: Math.random() * 5 + 's',
+            top: style1.top,
+            left: style1.left,
+            'animation-delay': style1.delay,
+            position: 'absolute',
           }"
-        ></div>
+        />
       </div>
     </div>
 
     <!-- Main content -->
     <div class="relative z-10">
+      <TheNavbar :showMode="showMode" />
       <slot />
       <JianDock />
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+const showMode = ref("terminal");
 
+const style1 = ref<{ top: string; left: string; delay: string } | null>(null);
+
+onMounted(() => {
+  style1.value = {
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 5}s`,
+  };
+});
+</script>
 <style scoped>
 @keyframes moveGrid {
   from {
