@@ -205,6 +205,7 @@ async function playBootSequence() {
   }
   await delay(500);
   showWelcome.value = true;
+  sessionStorage.setItem("visited_home", "terminal");
 }
 
 onMounted(() => {
@@ -219,8 +220,8 @@ onMounted(() => {
   } else {
     visibleLines.value = bootLines;
     showWelcome.value = true;
+    sessionStorage.setItem("visited_home", "terminal");
   }
-  sessionStorage.setItem("visited_home", "terminal");
 });
 
 watch(
