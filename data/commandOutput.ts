@@ -122,6 +122,7 @@ const skillsOutput = [
   "",
   "[CLOUD & DEVOPS]",
   `  - ${skillsData.cloud_devops.join("\n  - ")}`,
+  "",
   "[Frontend]",
   `  - ${skillsData.frontend.join("\n  - ")}`,
   "",

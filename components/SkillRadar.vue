@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full sm:h-96 sm:-mt-20">
+  <div class="w-full sm:h-64 sm:mb-12 lg:h-96 sm:-mt-20">
     <ClientOnly>
       <apexchart
         type="radar"
