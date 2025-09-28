@@ -2,7 +2,7 @@
 
 This project reimagines the personal portfolio as an immersive, interactive experience. Built for the DevOne Hackathon 2025, it presents my skills and projects through a futuristic terminal and a complementary graphical user interface, powered by an AI assistant.
 
-<img width="1912" height="859" alt="image" src="https://github.com/user-attachments/assets/49c0b05f-d75e-41a7-b63d-16422ca46e52" />
+![website_portfolio_demo (online-video-cutter com)](https://github.com/user-attachments/assets/ca612235-df75-4105-810f-b3df84ac96b9)
 
 <img width="1917" height="852" alt="image" src="https://github.com/user-attachments/assets/aeacbe08-48e4-426a-91b5-374124afa988" />
 
