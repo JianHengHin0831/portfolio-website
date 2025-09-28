@@ -23,7 +23,7 @@ This project reimagines the personal portfolio as an immersive, interactive expe
 
 *   **Frontend:** Nuxt.js 3 (Vue.js), Tailwind CSS
 *   **AI Layer:** OpenAI API (GPT models)
-*   **Deployment:** Vercel (Frontend),)
+*   **Deployment:** Vercel
 
 ## Getting Started
 
