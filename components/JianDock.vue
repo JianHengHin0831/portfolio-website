@@ -37,14 +37,14 @@
             <div v-for="(m, i) in messages" :key="i" class="text-xs sm:text-sm">
               <div v-if="m.role === 'user'" class="flex justify-end">
                 <p
-                  class="bg-slate-700/50 rounded-lg px-3 py-2 max-w-[80%] sm:max-w-xs"
+                  class="bg-slate-700/50 rounded-lg px-3 py-2 !max-w-[90%] sm:max-w-xs whitespace-pre-wrap break-words"
                 >
                   {{ m.content }}
                 </p>
               </div>
               <div v-else class="flex justify-start">
                 <p
-                  class="bg-emerald-500/10 text-emerald-200 rounded-lg px-3 py-2 max-w-[80%] sm:max-w-xs whitespace-pre-wrap"
+                  class="bg-emerald-500/10 text-emerald-200 rounded-lg px-3 py-2 !max-w-[90%] sm:max-w-xs whitespace-pre-wrap !break-words"
                 >
                   {{ m.content }}
                 </p>
