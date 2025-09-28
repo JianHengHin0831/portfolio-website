@@ -3,7 +3,7 @@
     class="min-h-screen flex flex-col items-center justify-center bg-transparent text-fuchsia-300 font-mono relative p-4 sm:p-6"
   >
     <div
-      class="w-full max-w-full sm:max-w-[960px] min-h-[220px] sm:min-h-[260px] bg-black/70 border border-emerald-300/20 shadow-[inset_0_0_0_1px_rgba(80,220,120,0.08),0_12px_40px_rgba(0,0,0,0.45)] p-4 sm:p-6 rounded-lg relative overflow-hidden"
+      class="w-full max-w-full sm:max-w-[960px] min-h-[220px] sm:min-h-[260px] bg-black/70 border border-emerald-300/20 shadow-[inset_0_0_0_1px_rgba(80,220,120,0.08),0_12px_40px_rgba(0,0,0,0.45)] p-4 sm:p-6 rounded-lg relative overflow-hidden transition-opacity duration-300"
       aria-live="polite"
       aria-label="Boot sequence output"
       v-show="!showWelcome"
@@ -119,6 +119,15 @@
         </div>
       </div>
     </div>
+
+    <div
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-white pointer-events-none z-50 transition-all duration-700 ease-in-out"
+      :class="{
+        'scale-[1000] opacity-100': isTransitioning,
+        'scale-0 opacity-100': !isTransitioning,
+      }"
+      style="box-shadow: 0 0 150px 75px theme(colors.white)"
+    ></div>
   </div>
 </template>
 
@@ -155,6 +164,7 @@ const router = useRouter();
 const isGuiMode = ref(false);
 const isFocused = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
+const isTransitioning = ref(false);
 
 const toggleMode = () => {
   isGuiMode.value = !isGuiMode.value;
@@ -180,24 +190,30 @@ function handleBlur() {
 }
 
 async function playBootSequence() {
+  sessionStorage.setItem("visited_home", "terminal");
   for (const line of bootLines) {
     visibleLines.value = await typeLine(line, visibleLines.value);
   }
   await delay(500);
+  isTransitioning.value = true;
+  await delay(350);
   showWelcome.value = true;
-
-  sessionStorage.setItem("visited_home", "terminal");
+  await delay(400);
+  isTransitioning.value = false;
 }
 
 onMounted(() => {
+  console.log("1");
   const saved = sessionStorage.getItem("commandHistory");
   if (saved) {
     commandHistory.value = JSON.parse(saved);
   }
 
   if (!sessionStorage.getItem("visited_home")) {
+    console.log("2");
     playBootSequence();
   } else {
+    console.log("3");
     visibleLines.value = bootLines;
     showWelcome.value = true;
     sessionStorage.setItem("visited_home", "terminal");
