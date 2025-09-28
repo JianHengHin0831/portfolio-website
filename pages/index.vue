@@ -1,9 +1,9 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-transparent text-fuchsia-300 font-mono relative p-6"
+    class="min-h-screen flex flex-col items-center justify-center bg-transparent text-fuchsia-300 font-mono relative p-4 sm:p-6"
   >
     <div
-      class="w-full max-w-[960px] min-h-[260px] bg-black/70 border border-emerald-300/20 shadow-[inset_0_0_0_1px_rgba(80,220,120,0.08),0_12px_40px_rgba(0,0,0,0.45)] p-6 rounded-lg relative overflow-hidden"
+      class="w-full max-w-full sm:max-w-[960px] min-h-[220px] sm:min-h-[260px] bg-black/70 border border-emerald-300/20 shadow-[inset_0_0_0_1px_rgba(80,220,120,0.08),0_12px_40px_rgba(0,0,0,0.45)] p-4 sm:p-6 rounded-lg relative overflow-hidden"
       aria-live="polite"
       aria-label="Boot sequence output"
       v-show="!showWelcome"
@@ -12,7 +12,7 @@
         class="absolute inset-0 pointer-events-none opacity-20 text-emerald-200"
         aria-hidden="true"
       >
-        <pre class="m-0 whitespace-pre">
+        <pre class="m-0 whitespace-pre text-xs sm:text-sm">
    _  _  _   _   _   _   _   _   _
  _/ \/ \/ \_/ \_/ \_/ \_/ \_/ \_/ \_
 \_  Neural Mesh Topology — v1.0 — JIAN  _/
@@ -26,34 +26,41 @@
         </pre>
       </div>
       <pre
-        class="m-0 mb-2 whitespace-pre-wrap leading-relaxed text-emerald-100 drop-shadow-[0_0_6px_rgba(80,220,120,0.35)]"
+        class="m-0 mb-2 whitespace-pre-wrap leading-relaxed text-emerald-100 text-sm sm:text-base drop-shadow-[0_0_6px_rgba(80,220,120,0.35)]"
         v-for="(line, idx) in visibleLines"
         :key="idx"
         >{{ line }}</pre
       >
     </div>
 
-    <!-- GUI button -->
     <button
       data-sound
       @click="toggleMode"
-      class="absolute top-4 right-4 z-50 flex items-center px-4 py-2 border-2 border-cyan-400 text-cyan-400 rounded-lg text-sm uppercase font-semibold tracking-wider transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-cyan-400 hover:bg-cyan-400 hover:text-gray-900 hover:shadow-[0_0_15px_theme(colors.cyan.400)]"
+      class="absolute top-4 right-4 z-50 flex items-center px-3 sm:px-4 py-2 border-2 border-cyan-400 text-cyan-400 rounded-lg text-xs sm:text-sm uppercase font-semibold tracking-wider transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-cyan-400 hover:bg-cyan-400 hover:text-gray-900 hover:shadow-[0_0_15px_theme(colors.cyan.400)]"
     >
-      <Icon name="mdi:grid-large" class="w-5 h-5 mr-2 text-white" />
+      <Icon
+        name="mdi:grid-large"
+        class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-white"
+      />
       <span>Visual Mode</span>
     </button>
 
-    <!-- Terminal Container -->
     <div
       v-show="showWelcome"
-      class="w-full max-w-[960px] h-[560px] bg-black/70 border border-emerald-300/20 shadow-[inset_0_0_0_1px_rgba(80,220,120,0.08),0_12px_40px_rgba(0,0,0,0.45)] p-6 rounded-lg relative flex flex-col"
+      class="w-full max-w-full sm:max-w-[960px] h-[460px] sm:h-[560px] bg-black/70 border border-emerald-300/20 shadow-[inset_0_0_0_1px_rgba(80,220,120,0.08),0_12px_40px_rgba(0,0,0,0.45)] pb-4 sm:pb-6 rounded-lg relative flex flex-col"
       aria-live="polite"
     >
-      <!-- Scrollable history area -->
+      <div class="mb-2 text-sm sm:text-base z-50 bg-gray-500">
+        <span class="text-teal-300 px-4">Terminal</span>
+        <hr class="flex-1 border-t border-teal-300" />
+      </div>
       <div
-        class="flex-1 overflow-y-auto pr-2 hide-scrollbar flex flex-col justify-end"
+        class="px-4 sm:px-6 flex-1 overflow-y-auto pr-2 hide-scrollbar flex flex-col justify-end"
       >
-        <div class="hide-scrollbar overflow-y-auto" ref="historyEl">
+        <div
+          class="hide-scrollbar overflow-y-auto text-xs sm:text-sm sm:text-base"
+          ref="historyEl"
+        >
           <h1 class="mb-2">
             Welcome. I am JIAN, the cognitive interface for Hin Jian Heng.
           </h1>
@@ -68,18 +75,21 @@
           <p>Suggested command: {{ placeholder }}.</p>
 
           <div v-for="(entry, i) in commandHistory" :key="i" class="mb-2">
-            <pre class="m-0 text-cyan-200"
+            <pre class="m-0 text-cyan-200 text-xs sm:text-sm sm:text-base"
               >{{ entry.timeStamp }}$ {{ entry.command }}</pre
             >
-            <pre class="m-0 opacity-95" v-if="entry.output">{{
-              entry.output
-            }}</pre>
+            <pre
+              class="m-0 opacity-95 text-xs sm:text-sm sm:text-base"
+              v-if="entry.output"
+              >{{ entry.output }}</pre
+            >
           </div>
         </div>
       </div>
 
-      <!-- Fixed input -->
-      <div class="flex items-center gap-2 mt-2">
+      <div
+        class="px-4 sm:px-6 flex items-center gap-2 mt-2 text-sm sm:text-base"
+      >
         <span class="text-teal-300">$</span>
         <div class="relative flex-1">
           <input
@@ -103,7 +113,7 @@
             ></span>
             <span
               v-else
-              class="inline-block w-2 h-4 hide-scrollbar border border-emerald-50 align-text-bottom hide-scrollbar -ml-2"
+              class="inline-block w-2 h-4 border border-emerald-50 align-text-bottom -ml-2"
             ></span>
           </div>
         </div>

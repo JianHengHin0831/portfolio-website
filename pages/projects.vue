@@ -1,13 +1,15 @@
 <template>
   <div class="min-h-screen bg-transparent text-slate-100 font-mono">
-    <div class="max-w-7xl mx-auto px-6 py-10">
-      <div class="flex items-center justify-between mb-6">
-        <h1 class="text-xl text-emerald-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div
+        class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4"
+      >
+        <h1 class="text-lg sm:text-xl text-emerald-300">
           Simulation Archives // Projects
         </h1>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         <article
           v-for="(p, index) in projects"
           :style="{ transitionDelay: `${index * 100}ms` }"
@@ -17,10 +19,12 @@
           :key="p.id"
           data-sound
           @click="openModal(p)"
-          class="transition-all duration-500 ease-out group bg-white/5 cursor-pointer border border-white/10 rounded-lg p-5 hover:border-emerald-400/40 transition-all duration-500 [transform-style:preserve-3d] hover:[transform:rotateX(3deg)_rotateY(-4deg)_translateZ(6px)]"
+          class="transition-all duration-500 ease-out group bg-white/5 cursor-pointer border border-white/10 rounded-lg p-4 sm:p-5 hover:border-emerald-400/40 transition-all duration-500 [transform-style:preserve-3d] hover:[transform:rotateX(3deg)_rotateY(-4deg)_translateZ(6px)]"
         >
-          <header class="flex items-center justify-between mb-2">
-            <h2 class="text-emerald-300">{{ p.name }}</h2>
+          <header
+            class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-1 sm:gap-0"
+          >
+            <h2 class="text-base sm:text-lg text-emerald-300">{{ p.name }}</h2>
             <span class="text-xs text-slate-400">{{ p.period }}</span>
           </header>
           <div class="text-sm text-slate-300 mb-3">{{ p.brief }}</div>
@@ -32,11 +36,11 @@
               >{{ t }}</span
             >
           </div>
-          <div class="flex gap-3 mb-3">
+          <div class="flex flex-wrap gap-3 mb-3">
             <div
               v-for="h in p.highlights"
               :key="h.label"
-              class="px-3 py-2 rounded bg-slate-900/60 border border-white/10 text-xs"
+              class="px-3 py-2 rounded bg-slate-900/60 border border-white/10 text-xs w-full sm:w-auto"
             >
               <div class="text-slate-400">{{ h.label }}</div>
               <div class="text-emerald-300 text-base">{{ h.value }}</div>
@@ -45,7 +49,7 @@
 
           <button
             @click="openModal(p)"
-            class="mt-2 text-slate-300 hover:text-emerald-300 transition-colors w-full text-left"
+            class="mt-2 text-slate-300 hover:text-emerald-300 transition-colors w-full text-left text-sm"
           >
             <span class="inline-block mr-1">▸</span>
             Post-Mortem Analysis

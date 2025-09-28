@@ -37,8 +37,8 @@
     </div>
 
     <!-- Main content -->
-    <div class="relative z-10 pr-16">
-      <TheNavbar :showMode="showMode" />
+    <div class="relative z-10" :class="route.path !== '/' ? 'pr-16' : ''">
+      <TheNavbar />
       <slot />
       <JianDock />
     </div>
@@ -46,9 +46,10 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-const showMode = ref("terminal");
-
 const style1 = ref<{ top: string; left: string; delay: string } | null>(null);
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 onMounted(() => {
   style1.value = {

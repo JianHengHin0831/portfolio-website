@@ -1,14 +1,12 @@
 <template>
-  <div class="fixed bottom-6 right-6 z-50 font-mono">
-    <!-- Main Transition for the Window -->
+  <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 font-mono">
     <Transition name="chat-window">
       <div
         v-if="open"
-        class="w-96 h-[32rem] /* Fixed height is key */ flex flex-col /* This enables the layout fix */ bg-slate-900/80 backdrop-blur-md /* Frosted glass effect */ text-slate-100 border border-emerald-400/30 rounded-lg shadow-2xl shadow-emerald-900/50 overflow-hidden"
+        class="w-full max-w-xs sm:w-96 h-[28rem] sm:h-[32rem] flex flex-col bg-slate-900/80 backdrop-blur-md text-slate-100 border border-emerald-400/30 rounded-lg shadow-2xl shadow-emerald-900/50 overflow-hidden"
       >
-        <!-- Header -->
         <div
-          class="px-4 py-2 flex items-center justify-between bg-slate-800/80 border-b border-emerald-400/20 flex-shrink-0"
+          class="px-3 py-2 sm:px-4 sm:py-2 flex items-center justify-between bg-slate-800/80 border-b border-emerald-400/20 flex-shrink-0"
         >
           <div class="flex items-center gap-2">
             <span class="relative flex h-2 w-2">
@@ -19,7 +17,9 @@
                 class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
               ></span>
             </span>
-            <div class="text-emerald-300 text-sm">JIAN // NL Interface</div>
+            <div class="text-emerald-300 text-xs sm:text-sm">
+              JIAN // NL Interface
+            </div>
           </div>
           <button
             class="text-slate-400 hover:text-white transition-colors"
@@ -29,21 +29,22 @@
           </button>
         </div>
 
-        <!-- Message List (The scrollable part) -->
         <div
           ref="messageContainer"
-          class="flex-1 p-4 space-y-4 overflow-y-auto"
+          class="flex-1 p-3 sm:p-4 space-y-4 overflow-y-auto"
         >
           <TransitionGroup name="message-fade">
-            <div v-for="(m, i) in messages" :key="i" class="text-sm">
+            <div v-for="(m, i) in messages" :key="i" class="text-xs sm:text-sm">
               <div v-if="m.role === 'user'" class="flex justify-end">
-                <p class="bg-slate-700/50 rounded-lg px-3 py-2 max-w-xs">
+                <p
+                  class="bg-slate-700/50 rounded-lg px-3 py-2 max-w-[80%] sm:max-w-xs"
+                >
                   {{ m.content }}
                 </p>
               </div>
               <div v-else class="flex justify-start">
                 <p
-                  class="bg-emerald-500/10 text-emerald-200 rounded-lg px-3 py-2 max-w-xs whitespace-pre-wrap"
+                  class="bg-emerald-500/10 text-emerald-200 rounded-lg px-3 py-2 max-w-[80%] sm:max-w-xs whitespace-pre-wrap"
                 >
                   {{ m.content }}
                 </p>
@@ -51,7 +52,6 @@
             </div>
           </TransitionGroup>
 
-          <!-- AI Typing Indicator -->
           <div v-if="loading" key="loading" class="flex justify-start">
             <div
               class="bg-emerald-500/10 text-emerald-200 rounded-lg px-3 py-2 flex items-center gap-1.5"
@@ -69,7 +69,6 @@
           </div>
         </div>
 
-        <!-- Input Form (Fixed at the bottom) -->
         <div
           class="p-3 border-t border-emerald-400/20 bg-slate-800/50 flex-shrink-0"
         >
@@ -77,7 +76,7 @@
             <input
               v-model="input"
               :placeholder="placeholder"
-              class="flex-1 bg-transparent outline-none text-sm px-2 py-1.5 border border-white/10 rounded focus:border-emerald-400/50 focus:ring-0 transition-colors"
+              class="flex-1 bg-transparent outline-none text-xs sm:text-sm px-2 py-1.5 border border-white/10 rounded focus:border-emerald-400/50 focus:ring-0 transition-colors"
             />
             <button
               class="text-xs px-3 py-1.5 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded flex items-center justify-center w-16 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -91,7 +90,6 @@
       </div>
     </Transition>
 
-    <!-- Floating Action Button -->
     <Transition
       enter-active-class="transition-all duration-300 ease-out"
       enter-from-class="opacity-0 scale-75"
@@ -103,10 +101,13 @@
       <button
         v-if="!open"
         data-sound
-        class="w-14 h-14 rounded-full bg-emerald-500/20 border-2 border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-lg shadow-emerald-900/60 hover:bg-emerald-500/30 hover:scale-105 animate-pulse-subtle transition-all duration-300"
+        class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/20 border-2 border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-lg shadow-emerald-900/60 hover:bg-emerald-500/30 hover:scale-105 animate-pulse-subtle transition-all duration-300"
         @click="open = true"
       >
-        <Icon name="heroicons:chat-bubble-left-right" class="w-7 h-7" />
+        <Icon
+          name="heroicons:chat-bubble-left-right"
+          class="w-6 h-6 sm:w-7 sm:h-7"
+        />
       </button>
     </Transition>
   </div>

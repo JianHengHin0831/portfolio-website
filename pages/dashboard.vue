@@ -1,17 +1,23 @@
 <template>
   <div class="min-h-screen bg-transparent text-slate-100 font-mono">
-    <div class="max-w-7xl mx-auto px-6 py-10">
-      <div class="flex items-center justify-between mb-6">
-        <h1 class="text-xl text-emerald-300">JIAN // Main Dashboard</h1>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div
+        class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4"
+      >
+        <h1 class="text-lg sm:text-xl text-emerald-300">
+          JIAN // Main Dashboard
+        </h1>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <section
-          class="col-span-1 bg-white/5 border border-white/10 rounded-lg p-5"
+          class="col-span-1 bg-white/5 border border-white/10 rounded-lg p-4 sm:p-5"
         >
-          <h2 class="text-emerald-300 mb-4">Identity Profile</h2>
+          <h2 class="text-emerald-300 mb-4 text-base sm:text-lg">
+            Identity Profile
+          </h2>
           <ul
-            class="space-y-2 text-sm font-mono tracking-wide border-l border-slate-700 pl-4"
+            class="space-y-2 text-sm font-mono tracking-wide border-l border-slate-700 sm:pl-4"
           >
             <li v-for="(item, index) in profileInfo" :key="index">
               <span class="text-slate-400">{{ item.label }}:</span>
@@ -21,12 +27,21 @@
         </section>
 
         <section
-          class="col-span-1 lg:col-span-2 bg-white/5 border border-white/10 rounded-lg p-5"
+          class="col-span-1 lg:col-span-2 bg-white/5 border border-white/10 rounded-lg p-4 sm:p-5"
         >
-          <div class="flex items-center justify-between mb-2">
+          <div
+            class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2 sm:gap-0"
+          >
             <div>
-              <h2 class="text-emerald-300">Core Competency Radar</h2>
-              <div class="text-xs text-slate-400">hover points for details</div>
+              <h2 class="text-emerald-300 text-base sm:text-lg">
+                Core Competency Radar
+              </h2>
+              <div class="hidden md:visible text-xs text-slate-400">
+                hover points for details
+              </div>
+              <div class="md:hidden text-xs text-slate-400">
+                click points for details
+              </div>
             </div>
             <button
               data-sound
@@ -49,9 +64,13 @@
         </section>
       </div>
 
-      <section class="mt-6 bg-white/5 border border-white/10 rounded-lg p-5">
-        <div class="flex items-center justify-between mb-2">
-          <h2 class="text-emerald-300">Activity Log</h2>
+      <section
+        class="mt-6 bg-white/5 border border-white/10 rounded-lg p-4 sm:p-5"
+      >
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2 sm:gap-0"
+        >
+          <h2 class="text-emerald-300 text-base sm:text-lg">Activity Log</h2>
           <button
             data-sound
             class="z-[20] text-xs px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-400/30 rounded"
@@ -60,11 +79,14 @@
             sync github
           </button>
         </div>
-        <div ref="logWrap" class="max-h-64 overflow-auto space-y-1 pr-2">
+        <div
+          ref="logWrap"
+          class="max-h-64 overflow-auto space-y-1 pr-2 text-sm"
+        >
           <div
             v-for="(line, i) in logs"
             :key="i"
-            class="whitespace-pre-wrap text-sm text-slate-200"
+            class="whitespace-pre-wrap text-slate-200"
           >
             {{ line }}
           </div>
