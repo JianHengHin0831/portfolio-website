@@ -2,6 +2,8 @@
 
 This project reimagines the personal portfolio as an immersive, interactive experience. Built for the DevOne Hackathon 2025, it presents my skills and projects through a futuristic terminal and a complementary graphical user interface, powered by an AI assistant.
 
+<img width="1912" height="859" alt="image" src="https://github.com/user-attachments/assets/49c0b05f-d75e-41a7-b63d-16422ca46e52" />
+
 <img width="1917" height="852" alt="image" src="https://github.com/user-attachments/assets/aeacbe08-48e4-426a-91b5-374124afa988" />
 
 <img width="1914" height="869" alt="image" src="https://github.com/user-attachments/assets/b9b6698d-2661-48b8-978a-03d6d165e74f" />
@@ -69,5 +71,5 @@ OPENAI_API_KEY="sk-..."
 ```
 
 ---
-
-This project was created for the **DevOne Hackathon 2025**.
+## Online Deployment
+https://portfolio-website-omega-nine-92.vercel.app/
