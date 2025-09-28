@@ -2,6 +2,7 @@ const skillsData = {
   languages: ["Python", "SQL", "Java", "JavaScript/TypeScript"],
   ai_ml: ["PyTorch", "TensorFlow", "LangChain.js", "Hugging Face Transformers"],
   cloud_devops: ["GCP", "Docker", "Vercel", "Supabase"],
+  frontend: ["Nuxt.Js"],
 };
 
 const contactData = {
@@ -20,7 +21,7 @@ const helpOutput = [
   "  about        - Display information about JIAN and this portfolio",
   "  projects     - List key projects. Use '--gui' for visual view",
   "  skills       - List technical skills. Use '--gui' for visual view",
-  "  contact      - Show contact information",
+  "  contact      - Show contact information. Use '--gui' for visual view",
   "  timeline     - Development Timeline. Use '--gui' for visual view",
   "  dashboard    - About me. Use '--gui' for visual view",
   "  clear        - Clear the terminal history",
@@ -37,13 +38,6 @@ const timelineOutput = [
   "  MODULE: Master of Artificial Intelligence.",
   "  INSTITUTION: University of Malaya (#60 QS 2025).",
   "  FOCUS_AREAS: [Advanced ML Algorithms], [Reinforcement Learning], [AI Ethics].",
-  " ",
-  "---",
-  " ",
-  "[TIMESTAMP: MAR 2025]",
-  "  EVENT: Certification module completed.",
-  "  MODULE: IBM AI Engineering Professional Certificate.",
-  "  OUTCOME: Acquired industry-standard competencies in AI lifecycle management.",
   " ",
   "---",
   " ",
@@ -71,7 +65,7 @@ const dashboardOutput = [
   " ",
   "ID:          HJH-0831",
   "DESIGNATION: AI Engineer",
-  "STATUS:      Active | Commencing Master's studies (Oct 2025)",
+  "STATUS:      Active | Master's in AI (Oct 2025)",
   " ",
   "PRIMARY_DIRECTIVE:",
   "  > To engineer and deploy efficient, end-to-end AI systems with a focus on real-time applications and model interpretability.",
@@ -87,11 +81,11 @@ const dashboardOutput = [
 const aboutOutput = [
   "JIAN is the Cognitive AI Interface for Hin Jian Heng's portfolio.",
   "It is designed to analyze, narrate, and provide interactive access to his professional background.",
-  "Built with Nuxt, Vue, and TypeScript, featuring planned integrations with Large Language Models.",
+  "Built with Nuxt, Vue, and TypeScript, integrated with Large Language Models.",
 ].join("\n");
 
 const projectOutput = [
-  "Accessing Simulation Archives... Found 5 projects:",
+  "Accessing Simulation Archives... Found 7 projects:",
   "",
   "  [1] Interpretable ML for Medical Analysis",
   "      Tech: Python, PyTorch, TabNet",
@@ -102,7 +96,17 @@ const projectOutput = [
   "  [3] AI-Powered Semantic Search Engine",
   "      Tech: Nuxt.js, Hugging Face, LangChain.js, Supabase",
   "",
-  "  ... (and so on for other projects)",
+  "  [4] CanvasX: AI-Powered Travel Planner",
+  "      Tech:Nuxt.js,Supabase, FastAPI,OpenAI GPT-4o,Vercel,Docker",
+  "",
+  "  [5] Staff Identification & Tracking Solution",
+  "      Tech: Python, YOLOv8, SAHI, Computer Vision, ResNet50",
+  "",
+  "  [6] Generative AI & Computer Vision Projects",
+  "      Tech: Python, PyTorch, Hugging Face, DCGAN, Diffusion Models",
+  "",
+  "  [7] Full-Stack Library Management System",
+  "      Tech: JavaScript, Node.js, Express, HTML/CSS",
   "",
   "Hint: For a detailed visual analysis, type 'projects --gui'",
 ].join("\n");
@@ -118,6 +122,8 @@ const skillsOutput = [
   "",
   "[CLOUD & DEVOPS]",
   `  - ${skillsData.cloud_devops.join("\n  - ")}`,
+  "[Frontend]",
+  `  - ${skillsData.frontend.join("\n  - ")}`,
   "",
   "Hint: For an interactive visual breakdown, type 'skills --gui'",
 ].join("\n");
@@ -158,4 +164,10 @@ export const outputGenerator = (baseCommand: string) => {
   }
 };
 
-export const allowGUIVersion = ["projects", "skills", "timeline", "dashboard"];
+export const allowGUIVersion = [
+  "projects",
+  "skills",
+  "timeline",
+  "dashboard",
+  "contact",
+];
