@@ -8,7 +8,6 @@ type ChatMessage = {
 
 export default defineEventHandler(async (event: H3Event) => {
   try {
-    // Step 2 Fix: Read the entire message history from the frontend
     const body = await readBody<{ messages: ChatMessage[] }>(event);
     const incomingMessages = body?.messages || [];
 
